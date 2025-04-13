@@ -44,8 +44,8 @@ An RL-powered recommendation system that generates personalized offers for e-com
 ```
 rl-recommendation-agent/
 ├── data/
-├── models/
-├── notebooks/
+├── model/
+├── notebook/
 └── requirements.txt/
 ```
 
