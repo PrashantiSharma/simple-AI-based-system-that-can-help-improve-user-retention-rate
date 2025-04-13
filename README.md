@@ -43,10 +43,10 @@ An RL-powered recommendation system that generates personalized offers for e-com
 
 ```
 rl-recommendation-agent/
-├── data
-├── models      
-├── notebooks 
-└── requirements.txt
+├── data/
+├── models/
+├── notebooks/
+└── requirements.txt/
 ```
 
 ##  Quick Start
