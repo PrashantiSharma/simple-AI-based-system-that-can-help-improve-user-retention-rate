@@ -1,0 +1,24 @@
+# Core Requirements
+gymnasium==1.1.1
+stable-baselines3==2.2.1
+torch==2.2.1
+
+# Data Processing
+pandas==2.1.4
+numpy==1.26.3
+scikit-learn==1.4.0
+openpyxl==3.1.2  # For Excel support
+
+# Visualization & Logging
+matplotlib==3.8.2
+tensorboard==2.15.1
+tqdm==4.66.1
+
+# Utilities
+python-dotenv==1.0.0
+cloudpickle==3.0.0  # For model serialization
+protobuf==4.25.1  # Required by TensorBoard
+
+# Optional (for Jupyter notebooks)
+jupyter==1.0.0
+ipykernel==6.27.1
