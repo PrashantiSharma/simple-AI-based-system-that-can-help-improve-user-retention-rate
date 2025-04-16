@@ -1,0 +1,99 @@
+/* Custom styles for the recommendation system */
+
+body {
+    font-family: sans-serif;
+    background-color: #f8f9fa; /* Light grey background */
+}
+
+.container {
+    max-width: 960px; /* Adjust container width as needed */
+}
+
+.card {
+    border: none; /* Remove default card border */
+    border-radius: 0.5rem; /* Slightly rounded corners */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Light divider for header */
+    padding: 1rem 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.form-label {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    color: #343a40; /* Dark grey label text */
+}
+
+.form-control {
+    border: 1px solid #ced4da; /* Light grey border for input fields */
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Blue border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Blue focus shadow */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Primary blue button */
+    border-color: #007bff;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    border-color: #0056b3;
+}
+
+.btn-success {
+    background-color: #28a745; /* Success green button */
+    border-color: #28a745;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.btn-success:hover {
+    background-color: #1e7e34; /* Darker green on hover */
+    border-color: #1e7e34;
+}
+
+#recommendation-result {
+    margin-top: 2rem;
+}
+
+#recommendation-details .alert-success {
+    background-color: #d4edda; /* Light green background for alert */
+    border-color: #c3e6cb;
+    color: #155724; /* Dark green text for alert */
+    padding: 1rem 1.5rem;
+    border-radius: 0.25rem;
+}
+
+#recommendation-details h4 {
+    margin-top: 0;
+    color: #155724;
+}
+
+.feature-card {
+    background-color: #fff; /* White background for feature cards */
+    border: 1px solid #e9ecef; /* Light grey border for feature cards */
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.feature-card strong {
+    font-weight: bold;
+    color: #495057; /* Dark grey for feature name */
+}
+
+.feature-card span {
+    color: #6c757d; /* Grey for feature value */
+}

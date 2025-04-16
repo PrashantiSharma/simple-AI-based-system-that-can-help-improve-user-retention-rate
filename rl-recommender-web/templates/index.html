@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RL Recommendation System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .feature-card { transition: all 0.3s; }
+        .feature-card:hover { transform: scale(1.02); }
+        #recommendation-result { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="text-center mb-4">Personalized Offer Recommender</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3>User Profile</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="userForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Recency (days)</label>
+                                    <input type="number" class="form-control" name="recency" value="5" min="0" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Frequency</label>
+                                    <input type="number" class="form-control" name="frequency" value="8" min="0" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Monetary Value</label>
+                                    <input type="number" class="form-control" name="monetary_value" value="100" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Engagement Score</label>
+                                    <input type="number" class="form-control" name="engagement_score" value="0.7" min="0" max="1" step="0.01" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email Opens</label>
+                                    <input type="number" class="form-control" name="email_opens" value="0.6" min="0" max="1" step="0.01" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">SMS Response</label>
+                                    <input type="number" class="form-control" name="sms_response" value="0.1" min="0" max="1" step="0.01" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Push Response</label>
+                                    <input type="number" class="form-control" name="push_response" value="0.3" min="0" max="1" step="0.01" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Last Purchase Days</label>
+                                    <input type="number" class="form-control" name="last_purchase_days" value="60" min="0" required>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="discount_sensitive" id="discountSensitive">
+                                        <label class="form-check-label" for="discountSensitive">Discount Sensitive</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="free_shipping_preferred" id="freeShippingPreferred">
+                                        <label class="form-check-label" for="freeShippingPreferred">Free Shipping Preferred</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-4">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        Get Recommendation
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div id="recommendation-result" class="card shadow">
+                    <div class="card-header bg-success text-white">
+                        <h3>Recommended Action</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="recommendation-details"></div>
+                        <div class="mt-4">
+                            <h5>User Features Used:</h5>
+                            <div id="user-features" class="row g-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('userForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const userData = {
+                recency: parseInt(formData.get('recency')),
+                frequency: parseInt(formData.get('frequency')),
+                monetary_value: parseFloat(formData.get('monetary_value')),
+                engagement_score: parseFloat(formData.get('engagement_score')),
+                discount_sensitive: formData.get('discount_sensitive') === 'on',
+                free_shipping_preferred: formData.get('free_shipping_preferred') === 'on',
+                email_opens: parseFloat(formData.get('email_opens')),
+                sms_response: parseFloat(formData.get('sms_response')),
+                push_response: parseFloat(formData.get('push_response')),
+                last_purchase_days: parseInt(formData.get('last_purchase_days'))
+            };
+
+            try {
+                const response = await fetch('/recommend', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+
+                if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const result = await response.json();
+                displayRecommendation(result);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to get recommendation. Please check console for details.'); // User feedback
+            }
+        });
+
+        function displayRecommendation(data) {
+            const rec = data.recommendation;
+            document.getElementById('recommendation-details').innerHTML = `
+                <div class="alert alert-success">
+                    <h4>${rec[0].toUpperCase()} Offer</h4>
+                    <p><strong>Value:</strong> ${rec[1]}${rec[0] === 'discount' ? '%' : ''}</p>
+                    <p><strong>Channel:</strong> ${rec[2].toUpperCase()}</p>
+                    <p><strong>Timing:</strong> ${rec[3].replace('_', ' ').toUpperCase()}</p>
+                </div>
+            `;
+
+            // Display user features
+            let featuresHtml = '';
+            for (const [key, value] of Object.entries(data.user_features)) {
+                featuresHtml += `
+                    <div class="col-sm-6">
+                        <div class="feature-card p-2 border rounded">
+                            <strong>${key.replace(/_/g, ' ').toUpperCase()}:</strong>
+                            <span>${typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('user-features').innerHTML = featuresHtml;
+            document.getElementById('recommendation-result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
